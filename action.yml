@@ -1,34 +1,34 @@
-name: "AWS Copilot"
-description: "AWS Copilot GitHub Action"
-author: "ksivamuthu and cymegerm"
+name: 'AWS Copilot'
+description: 'AWS Copilot GitHub Action'
+author: 'ksivamuthu and cymegerm'
 inputs:
   command:
     required: true
-    description: "command"
-    default: "install"
+    description: 'command'
+    default: 'install'
   app:
     required: false
-    description: "application name"
+    description: 'application name'
   svc:
     required: false
-    description: "service name"
+    description: 'service name'
   type:
     required: false
-    description: "service type"
+    description: 'service type'
   env:
     required: false
-    description: "environment name"
+    description: 'environment name'
   force:
     required: false
-    default: "false"
-    description: "run force"
+    default: 'false'
+    description: 'run force'
   path:
     required: false
-    description: "path name"
+    description: 'path name'
 
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: 'node16'
+  main: 'dist/index.js'
 
 branding:
   color: orange
