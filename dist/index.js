@@ -136,7 +136,6 @@ function deployApp() {
         }
         const app = core.getInput('app');
         const svc = core.getInput('svc');
-        const type = core.getInput('type');
         const env = core.getInput('env');
         const path = core.getInput('path') || '.';
         const force = false;
@@ -149,22 +148,17 @@ function deployApp() {
         if (!svc) {
             throw new Error('Service name is required');
         }
-        if (!type) {
-            throw new Error('Service type is required');
-        }
         const deploy = yield (0, exec_1.exec)('copilot', [
             'deploy',
             '--app',
             app,
-            '--type',
-            type,
             '--name',
             svc,
             '--env',
             env,
             force ? '--force' : ''
         ], { cwd: path });
-        core.debug(`Deploying app ${app} service ${svc} of type ${type} to env ${env} ${force ? 'with force' : ''} is done ${deploy}`);
+        core.debug(`Deploying app ${app} service ${svc} to env ${env} ${force ? 'with force' : ''} is done ${deploy}`);
         core.info('Copilot application deployed successfully');
     });
 }
