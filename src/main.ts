@@ -108,6 +108,8 @@ async function deployApp(): Promise<void> {
   }
 
   const app = core.getInput('app')
+  const svc = core.getInput('svc')
+  const type = core.getInput('type')
   const env = core.getInput('env')
   const path = core.getInput('path') || '.'
 
@@ -118,20 +120,32 @@ async function deployApp(): Promise<void> {
   }
 
   if (!env) {
-    throw new Error('Environment is required')
+    throw new Error('Environment name is required')
+  }
+  
+  if (!svc) {
+    throw new Error('Service name is required')
+  }
+  
+  if (!type) {
+    throw new Error('Service type is required')
   }
 
   const deploy = await exec('copilot', [
     'deploy',
     '--app',
     app,
+    '--type',
+    type,
+    '--name',
+    svc,
     '--env',
     env,
     force ? '--force' : ''
   ], { cwd: path });
 
   core.debug(
-    `Deploying app ${app} to env ${env} ${force ? 'with force' : ''
+    `Deploying app ${app} service ${svc} of type ${type} to env ${env} ${force ? 'with force' : ''
     } is done ${deploy}`
   )
 
