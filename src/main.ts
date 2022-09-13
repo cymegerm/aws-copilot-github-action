@@ -1,10 +1,10 @@
 import * as core from '@actions/core'
 import * as os from 'os'
 
-import { cacheFile, downloadTool, find } from '@actions/tool-cache'
-import { chmodSync } from 'fs'
-import { exec } from '@actions/exec'
-import { HttpClient } from '@actions/http-client'
+import {cacheFile, downloadTool, find} from '@actions/tool-cache'
+import {chmodSync} from 'fs'
+import {exec} from '@actions/exec'
+import {HttpClient} from '@actions/http-client'
 
 const COPILOT_CLI_TOOL_NAME = 'aws-copilot-cli'
 
@@ -69,8 +69,7 @@ async function getLatestVersion(): Promise<string> {
   const response = await http.getJson(
     'https://api.github.com/repos/aws/copilot-cli/releases/latest'
   )
-  const latestVersion = (response.result as { tag_name: string }).tag_name
-  return latestVersion
+  return (response.result as {tag_name: string}).tag_name
 }
 
 async function checkToolIsInstalled(toolName: string): Promise<boolean> {
@@ -85,15 +84,23 @@ async function packApp(): Promise<void> {
     await install()
   }
 
-  const app = core.getInput('app');
+  const app = core.getInput('app')
   const path = core.getInput('path') || '.'
 
   if (!app) {
     throw new Error('App name is required')
   }
 
-  const services = await exec('copilot', ['svc', 'ls', '--app', app, '--local', '--json'], { cwd: path });
-  const jobs = await exec('copilot', ['job', 'ls', '--app', app, '--local', '--json'], { cwd: path });
+  const services = await exec(
+    'copilot',
+    ['svc', 'ls', '--app', app, '--local', '--json'],
+    {cwd: path}
+  )
+  const jobs = await exec(
+    'copilot',
+    ['job', 'ls', '--app', app, '--local', '--json'],
+    {cwd: path}
+  )
 
   core.debug(`Services ${services}`)
   core.debug(`Jobs ${jobs}`)
@@ -113,7 +120,7 @@ async function deployApp(): Promise<void> {
   const env = core.getInput('env')
   const path = core.getInput('path') || '.'
 
-  const force = false;
+  const force = false
 
   if (!app) {
     throw new Error('App name is required')
@@ -122,30 +129,35 @@ async function deployApp(): Promise<void> {
   if (!env) {
     throw new Error('Environment name is required')
   }
-  
+
   if (!svc) {
     throw new Error('Service name is required')
   }
-  
+
   if (!type) {
     throw new Error('Service type is required')
   }
 
-  const deploy = await exec('copilot', [
-    'deploy',
-    '--app',
-    app,
-    '--type',
-    type,
-    '--name',
-    svc,
-    '--env',
-    env,
-    force ? '--force' : ''
-  ], { cwd: path });
+  const deploy = await exec(
+    'copilot',
+    [
+      'deploy',
+      '--app',
+      app,
+      '--type',
+      type,
+      '--name',
+      svc,
+      '--env',
+      env,
+      force ? '--force' : ''
+    ],
+    {cwd: path}
+  )
 
   core.debug(
-    `Deploying app ${app} service ${svc} of type ${type} to env ${env} ${force ? 'with force' : ''
+    `Deploying app ${app} service ${svc} of type ${type} to env ${env} ${
+      force ? 'with force' : ''
     } is done ${deploy}`
   )
 
