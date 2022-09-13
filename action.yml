@@ -9,6 +9,9 @@ inputs:
   app:
     required: false
     description: "application name"
+  svc:
+    required: false
+    description: "service name"
   env:
     required: false
     description: "environment name"
