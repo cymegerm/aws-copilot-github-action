@@ -12,6 +12,9 @@ inputs:
   svc:
     required: false
     description: "service name"
+  type:
+    required: false
+    description: "service type"
   env:
     required: false
     description: "environment name"
